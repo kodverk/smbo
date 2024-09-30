@@ -7,10 +7,14 @@ import {
 } from "@trpc/server/adapters/fetch";
 import { Resource } from "sst";
 
-function createContext(opts: FetchCreateContextFnOptions, d1: D1Database) {
+interface CreateContextOptions extends FetchCreateContextFnOptions {
+  d1: D1Database;
+}
+
+function createContext(opts: CreateContextOptions) {
+  const db = createDB(opts.d1);
   return {
-    db: createDB(d1),
-    ...opts,
+    db,
   };
 }
 
@@ -32,7 +36,7 @@ export default {
       router,
       req,
       endpoint: "/",
-      createContext: (opts) => createContext(opts, Resource.D1),
+      createContext: (opts) => createContext({ ...opts, d1: Resource.D1 }),
     });
   },
 };
