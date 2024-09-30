@@ -5,16 +5,8 @@ export default $config({
     return {
       name: "smbo",
       removal: input?.stage === "production" ? "retain" : "remove",
-      home: "aws",
+      home: "cloudflare",
       providers: {
-        aws: {
-          region: "eu-north-1",
-          profile: process.env.GITHUB_ACTIONS
-            ? undefined
-            : input.stage === "production"
-              ? "smbo-production"
-              : "smbo-dev",
-        },
         random: true,
         tls: true,
       },

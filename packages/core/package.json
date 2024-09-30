@@ -1,0 +1,23 @@
+{
+  "name": "@smbo/core",
+  "version": "0.0.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./*": "./src/*.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "db": "sst shell drizzle-kit"
+  },
+  "dependencies": {
+    "drizzle-orm": "^0.33.0",
+    "sst": "^3.1.49",
+    "ulid": "^2.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.1.10",
+    "drizzle-kit": "^0.24.2"
+  }
+}
