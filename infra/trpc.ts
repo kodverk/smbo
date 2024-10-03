@@ -6,6 +6,6 @@ const trpc = new sst.cloudflare.Worker("TRPC", {
   link: [d1],
 });
 
-export const ouputs = {
+export const outputs = {
   trpc: trpc.url,
 };
