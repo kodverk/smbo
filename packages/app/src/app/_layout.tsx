@@ -1,13 +1,13 @@
 import "../global.css";
-import { Stack } from "expo-router";
+import { Tabs } from "expo-router";
 import { TRPCProvider } from "~/trpc/provider";
 
 export default function RootLayout() {
   return (
     <TRPCProvider>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-      </Stack>
+      <Tabs screenOptions={{ headerShown: false }}>
+        <Tabs.Screen name="index" />
+      </Tabs>
     </TRPCProvider>
   );
 }
