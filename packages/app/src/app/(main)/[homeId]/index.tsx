@@ -1,10 +1,18 @@
+import { useLocalSearchParams } from "expo-router";
 import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { ActionMenu } from "~/components/action-menu";
 import { Icons } from "~/components/icons";
 import { Screen } from "~/components/screen";
+import { trpc } from "~/trpc/provider";
 
 export default function Index() {
+  const { homeId } = useLocalSearchParams<{ homeId: string }>();
+
+  const home = trpc.home.get.useQuery({
+    homeId,
+  });
+
   return (
     <Screen>
       <Header />
