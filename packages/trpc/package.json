@@ -4,10 +4,10 @@
   "type": "module",
   "sideEffects": false,
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/routers/root.router.ts"
   },
   "dependencies": {
-    "@smbo/core": "workspace:*",
+    "@smbo/core": "*",
     "@trpc/server": "^11.0.0-rc.553",
     "cloudflare": "^3.5.0",
     "sst": "3.1.64",

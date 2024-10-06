@@ -6,9 +6,22 @@ export {}
 import "sst"
 declare module "sst" {
   export interface Resource {
+    "D1Properties": {
+      "accountId": string
+      "id": string
+      "type": "sst.sst.Linkable"
+    }
     "D1_TOKEN": {
       "type": "sst.sst.Secret"
       "value": string
     }
+  }
+}
+// cloudflare 
+import * as cloudflare from "@cloudflare/workers-types";
+declare module "sst" {
+  export interface Resource {
+    "D1Database": cloudflare.D1Database
+    "TRPC": cloudflare.Service
   }
 }
