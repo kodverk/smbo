@@ -7,6 +7,12 @@ import superjson from "superjson";
 
 export const trpc = createTRPCReact<Router>();
 
+let token: string | null = null;
+
+export function setToken(newToken: string | null) {
+  token = newToken;
+}
+
 export function TRPCProvider(props: React.PropsWithChildren) {
   const [querClient] = React.useState(() => new QueryClient());
   const [trpcClient] = React.useState(() =>
@@ -24,6 +30,9 @@ export function TRPCProvider(props: React.PropsWithChildren) {
           async headers() {
             const headers = new Map<string, string>();
             headers.set("x-trpc-source", "expo-react");
+            if (token) {
+              headers.set("Authorization", `Bearer ${token}`);
+            }
             return Object.fromEntries(headers);
           },
         }),

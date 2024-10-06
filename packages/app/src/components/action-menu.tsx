@@ -35,7 +35,12 @@ export function ActionMenu() {
   }, []);
 
   const animatedValues = useDerivedValue(() => ({
-    width: withSpring(isOpen.value ? window.width - 8 * 2 : 56, {
+    width: withSpring(isOpen.value ? window.width - 8 * 3 : 56, {
+      mass: 1,
+      stiffness: 300,
+      damping: 40,
+    }),
+    bottom: withSpring(isOpen.value ? 8 * 2 : 8 * 6, {
       mass: 1,
       stiffness: 300,
       damping: 40,
@@ -54,6 +59,7 @@ export function ActionMenu() {
     width: animatedValues.value.width,
     height: animatedValues.value.height,
     borderRadius: animatedValues.value.borderRadius,
+    bottom: animatedValues.value.bottom,
   }));
 
   const contentStyle = useAnimatedStyle(() => ({
@@ -78,13 +84,13 @@ export function ActionMenu() {
   return (
     <>
       <Animated.View
-        className="bg-black/30"
+        className="bg-black/50"
         style={[{ ...StyleSheet.absoluteFillObject }, overlayStyle]}
       >
         <Pressable className="w-full h-full" onPress={toggleOpen} />
       </Animated.View>
       <Animated.View
-        className="bg-neutral-300 absolute right-8 bottom-12 overflow-hidden z-10"
+        className="bg-neutral-300 absolute right-4 overflow-hidden z-10"
         style={[containerStyle]}
       >
         <Pressable
@@ -100,8 +106,10 @@ export function ActionMenu() {
           className="gap-y-2 p-2"
           style={[contentStyle]}
         >
-          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4">
-            <View className="h-12 w-12 bg-blue-400 rounded-full" />
+          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-2">
+            <View className="h-12 w-12 bg-blue-200 rounded-full items-center justify-center">
+              <Icons.HandCoins className="color-blue-800" />
+            </View>
             <View>
               <Text className="text-neutral-800 font-medium text-xl">
                 Transaction
@@ -110,12 +118,25 @@ export function ActionMenu() {
             </View>
           </Pressable>
           <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4">
-            <View className="h-12 w-12 bg-blue-400 rounded-full" />
+            <View className="h-12 w-12 bg-fuchsia-200 rounded-full items-center justify-center">
+              <Icons.CalendarHeart className="color-fuchsia-800" />
+            </View>
             <View>
               <Text className="text-neutral-800 font-medium text-xl">
                 Calendar
               </Text>
               <Text>Add shared calendar events</Text>
+            </View>
+          </Pressable>
+          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4">
+            <View className="h-12 w-12 bg-green-200 rounded-full items-center justify-center">
+              <Icons.ListTodo className="color-green-800" />
+            </View>
+            <View>
+              <Text className="text-neutral-800 font-medium text-xl">
+                Lists
+              </Text>
+              <Text>Add item to list</Text>
             </View>
           </Pressable>
         </Animated.View>

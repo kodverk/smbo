@@ -5,21 +5,9 @@ import "sst"
 export {}
 declare module "sst" {
   export interface Resource {
-    "D1": {
-      "type": "sst.cloudflare.D1"
-    }
     "D1_TOKEN": {
       "type": "sst.sst.Secret"
       "value": string
-    }
-    "Database": {
-      "accountId": string
-      "id": string
-      "type": "sst.sst.Linkable"
-    }
-    "TRPC": {
-      "type": "sst.cloudflare.Worker"
-      "url": string
     }
   }
 }
