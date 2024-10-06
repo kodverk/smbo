@@ -9,10 +9,12 @@ import {
   CalendarHeart,
   ListTodo,
   SendHorizontal,
+  LockOpen,
 } from "lucide-react-native";
 import { iconWithClassName } from "./icon-with-classname";
 
 const Icons = {
+  LockOpen,
   ListTodo,
   SendHorizontal,
   CalendarHeart,
