@@ -4,7 +4,6 @@ import { initTRPC, TRPCError } from "@trpc/server";
 import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { Session } from "@smbo/core/session/index";
 import { initializeLucia } from "@smbo/core/lucia/index";
-import { authRouter } from "./routers/auth.router";
 
 interface CreateContextOptions extends FetchCreateContextFnOptions {
   db: DB;
@@ -31,7 +30,7 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
 });
 
 const authMiddleware = t.middleware(async ({ ctx, next }) => {
-  if (!ctx?.auth.user?.emailVerified) {
+  if (!ctx?.auth.user) {
     throw new TRPCError({ code: "UNAUTHORIZED" });
   }
 
@@ -48,9 +47,3 @@ export const publicProcedure = t.procedure;
 export const privateProcedure = t.procedure.use(authMiddleware);
 
 export const createTRPCRouter = t.router;
-
-export const rootRouter = createTRPCRouter({
-  auth: authRouter,
-});
-
-export type Router = typeof rootRouter;
