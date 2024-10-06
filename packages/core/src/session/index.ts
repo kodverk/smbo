@@ -27,10 +27,15 @@ export namespace Session {
   }
 
   export async function create(lucia: Lucia, userId: string) {
-    const session = await lucia.createSession(userId, {
-      sessionId: createID("session"),
-    });
-    return session;
+    const id = createID("session");
+    await lucia.createSession(
+      userId,
+      {},
+      {
+        sessionId: id,
+      },
+    );
+    return id;
   }
 
   export async function invalidateForUser(lucia: Lucia, userId: string) {

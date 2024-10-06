@@ -9,8 +9,8 @@ export default defineConfig({
   driver: "d1-http",
   dbCredentials: {
     token: Resource.D1_TOKEN.value,
-    databaseId: Resource.Database.id,
-    accountId: Resource.Database.accountId,
+    databaseId: Resource.D1Properties.id,
+    accountId: Resource.D1Properties.accountId,
   },
   schema: "./src/**/*.sql.ts",
 });

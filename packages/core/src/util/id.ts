@@ -6,6 +6,7 @@ const prefixes = {
   user: "usr",
   session: "ses",
   emailVerification: "ev",
+  home: "hme",
 } as const;
 
 export function createID(prefix: keyof typeof prefixes): string {

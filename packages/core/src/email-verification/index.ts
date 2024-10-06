@@ -8,25 +8,34 @@ export namespace EmailVerification {
   export type Insert = InferInsertModel<typeof emailVerificationTable>;
   export type Select = InferInsertModel<typeof emailVerificationTable>;
 
-  export function isValid(verification: Select) {
-    return (
-      verification.code === verification.code ||
-      isWithinExpirationDate(verification.expiresAt)
-    );
-  }
-
-  export async function get(db: DB, values: Pick<Insert, "userId" | "code">) {
+  export async function verifyCode(
+    db: DB,
+    values: Pick<Insert, "userId" | "code">,
+  ) {
     const result = await db
       .select()
       .from(emailVerificationTable)
-      .where(
-        and(
-          eq(emailVerificationTable.userId, values.userId),
-          eq(emailVerificationTable.code, values.code),
-        ),
-      );
+      .where(and(eq(emailVerificationTable.userId, values.userId)));
 
-    return getDrizzleResult(result);
+    const verification = getDrizzleResult(result);
+
+    if (!verification) {
+      return false;
+    }
+
+    if (verification.code !== values.code) {
+      return false;
+    }
+
+    if (!isWithinExpirationDate(verification.expiresAt)) {
+      return false;
+    }
+
+    if (verification.userId !== values.userId) {
+      return false;
+    }
+
+    return true;
   }
 
   export async function invalidateAllForUser(db: DB, userId: string) {
@@ -50,6 +59,6 @@ export namespace EmailVerification {
       expiresAt: createDate(new TimeSpan(15, "m")),
     });
 
-    return verificationId;
+    return code;
   }
 }

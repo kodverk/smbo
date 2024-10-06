@@ -8,6 +8,13 @@
       "when": 1728160107280,
       "tag": "0000_striped_glorian",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1728221594861,
+      "tag": "0001_funny_alex_wilder",
+      "breakpoints": true
     }
   ]
 }

@@ -1,12 +1,17 @@
-import { InferSelectModel, InferInsertModel, eq } from "drizzle-orm";
+import { InferSelectModel, eq } from "drizzle-orm";
 import { userTable } from "./user.sql";
 import { DrizzleD1Database } from "drizzle-orm/d1";
 import { DB, getDrizzleResult } from "../drizzle";
 import { createID } from "../util/id";
+import { createInsertSchema } from "drizzle-zod";
+import { z } from "zod";
 
 export namespace User {
   export type Select = InferSelectModel<typeof userTable>;
-  export type Insert = Omit<InferInsertModel<typeof userTable>, "id">;
+  export const Insert = createInsertSchema(userTable, {
+    emailVerified: z.boolean().optional(),
+  }).omit({ id: true });
+  export type Insert = z.infer<typeof Insert>;
 
   export async function get(db: DB, email: string) {
     const result = await db

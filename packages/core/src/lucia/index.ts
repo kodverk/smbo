@@ -1,9 +1,8 @@
 import { D1Adapter } from "@lucia-auth/adapter-sqlite";
 import { Lucia } from "lucia";
 import { User } from "../user";
-import { DB } from "../drizzle";
 
-export function initializeLucia(d1: DB) {
+export function initializeLucia(d1: D1Database) {
   const adapter = new D1Adapter(d1, {
     user: "users",
     session: "sessions",
