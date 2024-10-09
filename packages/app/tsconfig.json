@@ -3,7 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@smbo/trpc/*": ["../trpc/src/*"],
+      "@smbo/core/*": ["../core/src/*"]
     },
     "jsx": "react-native",
     "types": ["nativewind/types"],

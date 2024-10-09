@@ -6,12 +6,11 @@ export {}
 import "sst"
 declare module "sst" {
   export interface Resource {
-    "D1Properties": {
-      "accountId": string
-      "id": string
-      "type": "sst.sst.Linkable"
+    "TURSO_AUTH_TOKEN": {
+      "type": "sst.sst.Secret"
+      "value": string
     }
-    "D1_TOKEN": {
+    "TURSO_URL": {
       "type": "sst.sst.Secret"
       "value": string
     }
@@ -21,7 +20,6 @@ declare module "sst" {
 import * as cloudflare from "@cloudflare/workers-types";
 declare module "sst" {
   export interface Resource {
-    "D1Database": cloudflare.D1Database
     "TRPC": cloudflare.Service
   }
 }

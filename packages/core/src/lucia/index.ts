@@ -1,9 +1,10 @@
-import { D1Adapter } from "@lucia-auth/adapter-sqlite";
+import { LibSQLAdapter } from "@lucia-auth/adapter-sqlite";
 import { Lucia } from "lucia";
 import { User } from "../user";
+import { Client } from "@libsql/client";
 
-export function initializeLucia(d1: D1Database) {
-  const adapter = new D1Adapter(d1, {
+export function initializeLucia(client: Client) {
+  const adapter = new LibSQLAdapter(client, {
     user: "users",
     session: "sessions",
   });

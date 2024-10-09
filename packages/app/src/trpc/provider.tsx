@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 import React from "react";
 import { createTRPCReact, httpBatchLink, loggerLink } from "@trpc/react-query";
-import type { Router } from "@smbo/trpc";
+import type { Router } from "@smbo/trpc/src/routers/root.router";
 import superjson from "superjson";
 import { AuthStore } from "~/modules/auth/auth.store";
 

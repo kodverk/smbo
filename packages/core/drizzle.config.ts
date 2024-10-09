@@ -4,13 +4,11 @@ import { Resource } from "sst";
 export default defineConfig({
   strict: true,
   verbose: true,
-  out: "./migrations",
   dialect: "sqlite",
-  driver: "d1-http",
+  driver: "turso",
   dbCredentials: {
-    token: Resource.D1_TOKEN.value,
-    databaseId: Resource.D1Properties.id,
-    accountId: Resource.D1Properties.accountId,
+    url: Resource.TURSO_URL.value,
+    authToken: Resource.TURSO_AUTH_TOKEN.value,
   },
   schema: "./src/**/*.sql.ts",
 });

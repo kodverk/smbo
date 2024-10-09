@@ -1,8 +1,15 @@
-import { drizzle } from "drizzle-orm/d1";
+import { drizzle } from 'drizzle-orm/libsql';
+import { Client, Config, createClient } from '@libsql/client/web';
 
 export * from "drizzle-orm";
 
-export function createDB(client: D1Database) {
+type DBConfig = Pick<Config, "authToken" | "url">
+
+export function createLibSQLClient(config: DBConfig) {
+  return createClient(config)
+}
+
+export function createDB(client: Client) {
   return drizzle(client, { logger: true });
 }
 

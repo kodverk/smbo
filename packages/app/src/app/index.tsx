@@ -2,6 +2,7 @@ import { Link, Redirect } from "expo-router";
 import React from "react";
 import { Text, View } from "react-native";
 import { Screen } from "~/components/screen";
+import { Stepper, StepperContent } from "~/components/stepper";
 import { trpc } from "~/trpc/provider";
 
 export default function Index() {
@@ -17,15 +18,15 @@ export default function Index() {
     );
   }
 
-  if (homes.error.data?.code === "UNAUTHORIZED") {
+  if (homes.error?.data?.code === "UNAUTHORIZED") {
     return <Redirect href="/(auth)" />;
   }
 
   if (homes.data?.length === 0) {
     return (
-      <View>
-        <Text>no homes found for user</Text>
-      </View>
+      <Screen>
+        <CreateHome />
+      </Screen>
     );
   }
 
@@ -42,4 +43,25 @@ export default function Index() {
       </View>
     </Screen>
   );
+}
+
+function CreateHome() {
+  return (
+    <Stepper length={2}>
+      <StepperContent index={0}>
+        <View>
+          <Text>
+            Name of your home
+          </Text>
+        </View>
+      </StepperContent>
+      <StepperContent index={1}>
+        <View>
+          <Text>
+            Name of your home
+          </Text>
+        </View>
+      </StepperContent>
+    </Stepper>
+  )
 }

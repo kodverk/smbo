@@ -6,6 +6,8 @@ import { Screen } from "~/components/screen";
 import { trpc } from "~/trpc/provider";
 import { AuthStore } from "~/modules/auth/auth.store";
 import { router } from "expo-router";
+import { Stepper, StepperContent, useStepper } from "~/components/stepper";
+import { Button, ButtonIconRight, ButtonText } from "~/components/button";
 
 export default function AuthScreen() {
   return (
@@ -33,7 +35,7 @@ function EnterCode() {
       setToken(data.id);
       router.push("/");
     },
-    onError() {},
+    onError() { },
   });
   return (
     <View className="gap-y-4">
@@ -65,7 +67,7 @@ function EnterEmail() {
       setToken(data.id);
       setIndex((prev) => prev + 1);
     },
-    onError() {},
+    onError() { },
   });
   return (
     <View className="gap-y-4">
@@ -88,80 +90,4 @@ function EnterEmail() {
   );
 }
 
-const StepperContext = React.createContext<{
-  index: number;
-  setIndex: React.Dispatch<React.SetStateAction<number>>;
-} | null>(null);
 
-interface StepperContentProps {
-  index: number;
-}
-
-function useStepper() {
-  const ctx = React.useContext(StepperContext);
-  if (!ctx) {
-    throw new Error("useStepper must be used within a Stepper");
-  }
-  return ctx;
-}
-
-function StepperContent(props: React.PropsWithChildren<StepperContentProps>) {
-  const { index } = useStepper();
-
-  if (index !== props.index) {
-    return null;
-  }
-  return <View>{props.children}</View>;
-}
-
-interface StepperProps {
-  length: number;
-  activeIndex?: number;
-}
-
-function Stepper(props: React.PropsWithChildren<StepperProps>) {
-  const [index, setIndex] = React.useState(props.activeIndex ?? 0);
-  return (
-    <StepperContext.Provider value={{ setIndex, index }}>
-      <View className="flex-row gap-x-4 justify-center mb-8 items-center">
-        {Array.from({ length: props.length }).map((_, i) => (
-          <View
-            key={i}
-            className={`rounded-full ${
-              i === index ? "bg-neutral-200 w-8 h-2" : "bg-neutral-400 w-4 h-2"
-            }`}
-          />
-        ))}
-      </View>
-      {props.children}
-    </StepperContext.Provider>
-  );
-}
-
-interface ButtonProps {
-  onPress: () => void;
-}
-
-function Button(props: React.PropsWithChildren<ButtonProps>) {
-  return (
-    <Pressable
-      onPress={props.onPress}
-      className="px-5 py-4 bg-neutral-200 rounded-lg flex-row justify-between w-full"
-    >
-      {props.children}
-    </Pressable>
-  );
-}
-
-function ButtonIconRight(props: { icon: LucideIcon }) {
-  const Icon = props.icon;
-  return <Icon className="text-neutral-800" />;
-}
-
-function ButtonText(props: React.PropsWithChildren) {
-  return (
-    <Text className="text-neutral-800 font-medium text-lg">
-      {props.children}
-    </Text>
-  );
-}

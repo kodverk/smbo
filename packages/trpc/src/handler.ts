@@ -1,4 +1,4 @@
-import { createDB } from "@smbo/core/drizzle/index";
+import { createDB, createLibSQLClient } from "@smbo/core/drizzle/index";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
 import { Resource } from "sst";
 import { initializeLucia } from "@smbo/core/lucia/index";
@@ -7,12 +7,13 @@ import { createTRPCContext } from "./trpc";
 
 export default {
   async fetch(req: Request): Promise<Response> {
-    if (!req.url.includes("/v0/trpc")) {
-      return new Response("Hello world", { status: 200 });
-    }
+    const client = createLibSQLClient({
+      url: Resource.TURSO_URL.value,
+      authToken: Resource.TURSO_AUTH_TOKEN.value,
+    })
 
-    const db = createDB(Resource.D1Database);
-    const lucia = initializeLucia(Resource.D1Database);
+    const db = createDB(client);
+    const lucia = initializeLucia(client);
 
     return fetchRequestHandler({
       router: rootRouter,

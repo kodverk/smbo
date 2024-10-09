@@ -2,9 +2,10 @@
   "name": "@smbo/trpc",
   "version": "0.0.0",
   "type": "module",
+  "private": true,
   "sideEffects": false,
   "exports": {
-    ".": "./src/routers/root.router.ts"
+    "./router": "./src/routers/root.router.ts"
   },
   "dependencies": {
     "@smbo/core": "*",

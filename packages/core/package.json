@@ -11,6 +11,7 @@
     "db": "sst shell drizzle-kit"
   },
   "dependencies": {
+    "@libsql/client": "^0.14.0",
     "@lucia-auth/adapter-sqlite": "^3.0.2",
     "@trpc/server": "11.0.0-rc.477",
     "drizzle-orm": "^0.33.0",
