@@ -1,3 +1,6 @@
 export const secrets = {
-  d1Token: new sst.Secret("D1_TOKEN"),
+  tursoUrl: new sst.Secret("TURSO_URL"),
+  tursoAuthToken: new sst.Secret("TURSO_AUTH_TOKEN"),
 };
+
+export const allSecrets = Object.values(secrets);
