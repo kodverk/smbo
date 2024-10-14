@@ -8,6 +8,7 @@ import { AuthStore } from "~/modules/auth/auth.store";
 import { router } from "expo-router";
 import { Stepper, StepperContent, useStepper } from "~/components/stepper";
 import { Button, ButtonIconRight, ButtonText } from "~/components/button";
+import { Input } from "~/components/input";
 
 export default function AuthScreen() {
   return (
@@ -40,11 +41,10 @@ function EnterCode() {
   return (
     <View className="gap-y-4">
       <Text className="text-neutral-200">One time code</Text>
-      <TextInput
+      <Input
         value={code}
         onChangeText={setCode}
         textContentType="oneTimeCode"
-        className="text-neutral-200 text-lg bg-neutral-900 border border-neutral-800 rounded-lg px-5 py-2"
       />
       <Button
         onPress={() => {
