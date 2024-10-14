@@ -10,7 +10,7 @@ export default function Index() {
   const { homeId } = useLocalSearchParams<{ homeId: string }>();
 
   const home = trpc.home.get.useQuery({
-    homeId,
+    id: homeId,
   });
 
   return (
@@ -26,7 +26,7 @@ export default function Index() {
         <ShoppingList />
         <RecentExpenses />
       </ScrollView>
-      <ActionMenu />
+      {/* <ActionMenu /> */}
     </Screen>
   );
 }
