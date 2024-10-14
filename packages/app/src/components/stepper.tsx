@@ -45,7 +45,9 @@ export function Stepper(props: React.PropsWithChildren<StepperProps>) {
           />
         ))}
       </View>
-      {props.children}
+      <View className="flex-1">
+        {props.children}
+      </View>
     </StepperContext.Provider>
   );
 }
