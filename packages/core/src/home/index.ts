@@ -1,9 +1,9 @@
 import { createInsertSchema } from "drizzle-zod";
 import { eq, getTableColumns } from "drizzle-orm";
-import { DB } from "../drizzle";
+import type { DB } from "../drizzle";
 import { createID } from "../util/id";
 import { homeMemberTable, homeInvitationTable, homeTable } from "./home.sql";
-import { z } from "zod";
+import type { z } from "zod";
 
 export namespace Home {
   export const Insert = createInsertSchema(homeTable).omit({ id: true });
@@ -14,16 +14,17 @@ export namespace Home {
       const result = await tx
         .select()
         .from(homeTable)
-        .innerJoin(homeMemberTable, eq(homeMemberTable.homeId, homeTable.id))
-        .innerJoin(
-          homeInvitationTable,
-          eq(homeInvitationTable.homeId, homeTable.id),
-        )
+        .leftJoin(homeMemberTable, eq(homeMemberTable.homeId, homeTable.id))
+        .leftJoin(homeInvitationTable, eq(homeInvitationTable.homeId, homeTable.id))
         .where(eq(homeTable.id, values.id));
+
+      if (result.length === 0) {
+        return null;
+      }
 
       const home = {
         ...result[0]?.home,
-        members: result.map((r) => r.home_member.homeId),
+        members: result.map((r) => r.home_member),
         invitations: result.map((r) => r.home_invitation),
       };
 
