@@ -1,13 +1,9 @@
-import { Link, useLocalSearchParams } from "expo-router";
 import React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { Icons } from "~/components/icons";
-import { Screen } from "~/components/screen";
-import { CalendarSummary } from "~/modules/calendar/calendar-summary";
-import { ListsSummary } from "~/modules/lists/list-summary";
-import { trpc } from "~/trpc/provider";
+import { Text, View } from "react-native";
+import { HomeStore } from "../home/home.store";
 
 export function ExpenseSummary() {
+  const id = HomeStore.useSelectedId();
   return (
     <View className="bg-neutral-900 border border-neutral-800 rounded-lg py-3 px-4 gap-y-8">
       <View className="gap-y-2">
