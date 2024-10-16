@@ -1,16 +1,31 @@
 import React from "react";
-import { LucideIcon } from "lucide-react-native";
-import { Text, Pressable, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import { Icons } from "~/components/icons";
 import { Screen } from "~/components/screen";
 import { trpc } from "~/trpc/provider";
 import { AuthStore } from "~/modules/auth/auth.store";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { Stepper, StepperContent, useStepper } from "~/components/stepper";
 import { Button, ButtonIconRight, ButtonText } from "~/components/button";
 import { Input } from "~/components/input";
 
 export default function AuthScreen() {
+  const me = trpc.user.me.useQuery(undefined, {
+    retry: false,
+  });
+
+  if (me.isLoading) {
+    return (
+      <Screen>
+        <Text>loading...</Text>
+      </Screen>
+    );
+  }
+
+  if (me.data) {
+    return <Redirect href="/(main)/" />;
+  }
+
   return (
     <Screen>
       <Stepper length={2}>
@@ -34,18 +49,14 @@ function EnterCode() {
   const start = trpc.auth.verify.useMutation({
     onSuccess(data) {
       setToken(data.id);
-      router.push("/");
+      router.push("/(main)/home");
     },
     onError() { },
   });
   return (
     <View className="gap-y-4">
       <Text className="text-neutral-200">One time code</Text>
-      <Input
-        value={code}
-        onChangeText={setCode}
-        textContentType="oneTimeCode"
-      />
+      <Input value={code} onChangeText={setCode} textContentType="oneTimeCode" />
       <Button
         onPress={() => {
           start.mutate({ code });
@@ -89,5 +100,3 @@ function EnterEmail() {
     </View>
   );
 }
-
-
