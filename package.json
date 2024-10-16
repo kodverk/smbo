@@ -8,9 +8,11 @@
   ],
   "scripts": {
     "dev": "sst dev",
+    "fmt": "pnpm biome check . && pnpm lint:ws && pnpm typecheck",
     "sso": "aws sso login --sso-session=smbo --no-browser"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.3",
     "@types/bun": "latest",
     "typescript": "^5.6.2"
   },
