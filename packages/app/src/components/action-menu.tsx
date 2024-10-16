@@ -3,6 +3,7 @@ import { Dimensions, Pressable, StyleSheet, Text, View } from "react-native";
 import Animated, {
   measure,
   runOnUI,
+  useAnimatedReaction,
   useAnimatedRef,
   useAnimatedStyle,
   useDerivedValue,
@@ -21,17 +22,11 @@ export function ActionMenu() {
   const contentHeight = useSharedValue(0);
 
   const measureContent = React.useCallback(() => {
-    runOnUI(() => {
-      "worklet";
-      const measured = measure(animatedRef);
-      if (measured) {
-        contentHeight.value = measured.height;
-      }
-    })();
-  }, []);
-
-  React.useEffect(() => {
-    measureContent();
+    "worklet";
+    const measured = measure(animatedRef);
+    if (measured) {
+      contentHeight.value = measured.height;
+    }
   }, []);
 
   const animatedValues = useDerivedValue(() => ({
@@ -45,7 +40,7 @@ export function ActionMenu() {
       stiffness: 300,
       damping: 40,
     }),
-    height: withSpring(isOpen.value ? contentHeight.value : 56, {
+    height: withSpring(isOpen.value ? 56 * 3 : 56, {
       mass: 1,
       stiffness: 300,
       damping: 40,
@@ -69,6 +64,9 @@ export function ActionMenu() {
   }));
 
   const toggleOpen = withHaptics("soft", () => {
+    if (!isOpen.value) {
+      runOnUI(measureContent)();
+    }
     isOpen.value = !isOpen.value;
   });
 
@@ -101,19 +99,13 @@ export function ActionMenu() {
             <Icons.Plus className="text-neutral-800" />
           </Animated.View>
         </Pressable>
-        <Animated.View
-          ref={animatedRef}
-          className="gap-y-2 p-2"
-          style={[contentStyle]}
-        >
+        <Animated.View ref={animatedRef} className="gap-y-2 p-2" style={[contentStyle]}>
           <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-2">
             <View className="h-12 w-12 bg-blue-200 rounded-full items-center justify-center">
               <Icons.HandCoins className="color-blue-800" />
             </View>
             <View>
-              <Text className="text-neutral-800 font-medium text-xl">
-                Transaction
-              </Text>
+              <Text className="text-neutral-800 font-medium text-xl">Transaction</Text>
               <Text>Add shared transactions</Text>
             </View>
           </Pressable>
@@ -122,9 +114,7 @@ export function ActionMenu() {
               <Icons.CalendarHeart className="color-fuchsia-800" />
             </View>
             <View>
-              <Text className="text-neutral-800 font-medium text-xl">
-                Calendar
-              </Text>
+              <Text className="text-neutral-800 font-medium text-xl">Calendar</Text>
               <Text>Add shared calendar events</Text>
             </View>
           </Pressable>
@@ -133,9 +123,7 @@ export function ActionMenu() {
               <Icons.ListTodo className="color-green-800" />
             </View>
             <View>
-              <Text className="text-neutral-800 font-medium text-xl">
-                Lists
-              </Text>
+              <Text className="text-neutral-800 font-medium text-xl">Lists</Text>
               <Text>Add item to list</Text>
             </View>
           </Pressable>
