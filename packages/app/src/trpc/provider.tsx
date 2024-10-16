@@ -29,7 +29,6 @@ export function TRPCProvider(props: React.PropsWithChildren) {
             if (token) {
               headers.set("Authorization", `Bearer ${token}`);
             }
-            console.log({ headers });
             return Object.fromEntries(headers);
           },
         }),
@@ -39,9 +38,7 @@ export function TRPCProvider(props: React.PropsWithChildren) {
 
   return (
     <trpc.Provider client={trpcClient} queryClient={querClient}>
-      <QueryClientProvider client={querClient}>
-        {props.children}
-      </QueryClientProvider>
+      <QueryClientProvider client={querClient}>{props.children}</QueryClientProvider>
     </trpc.Provider>
   );
 }
@@ -50,4 +47,4 @@ export const getBaseUrl = () => {
   return "https://smbo-viktor-trpcscript.viktormalmedal.workers.dev";
 };
 
-export function isTRPCError(error) {}
+export function isTRPCError(error) { }
