@@ -1,6 +1,7 @@
-import { Tabs } from "expo-router";
-import { LucideIcon } from "lucide-react-native";
+import { Redirect, Tabs, useLocalSearchParams } from "expo-router";
+import type { LucideIcon } from "lucide-react-native";
 import { Icons } from "~/components/icons";
+import { trpc } from "~/trpc/provider";
 
 interface TabBarIconProps {
   icon: LucideIcon;
@@ -10,15 +11,16 @@ interface TabBarIconProps {
 }
 
 function TabBarIcon({ icon: Icon, size, focused }: TabBarIconProps) {
-  return (
-    <Icon
-      size={size}
-      className={focused ? "color-neutral-200" : "color-neutral-400"}
-    />
-  );
+  return <Icon size={size} className={focused ? "color-neutral-200" : "color-neutral-400"} />;
 }
 
 export default function RootLayout() {
+  const { homeId } = useLocalSearchParams<{ homeId: string }>();
+
+  if (homeId === "(main)") {
+    return <Redirect href="/(main)/home" />;
+  }
+
   return (
     <Tabs
       screenOptions={{
@@ -40,18 +42,14 @@ export default function RootLayout() {
         name="calendar/index"
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: (props) => (
-            <TabBarIcon icon={Icons.Calendar} {...props} />
-          ),
+          tabBarIcon: (props) => <TabBarIcon icon={Icons.Calendar} {...props} />,
         }}
       />
       <Tabs.Screen
         name="expenses/index"
         options={{
           tabBarShowLabel: false,
-          tabBarIcon: (props) => (
-            <TabBarIcon icon={Icons.Banknote} {...props} />
-          ),
+          tabBarIcon: (props) => <TabBarIcon icon={Icons.Banknote} {...props} />,
         }}
       />
       <Tabs.Screen
