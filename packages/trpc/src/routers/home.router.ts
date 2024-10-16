@@ -1,12 +1,19 @@
 import { Home } from "@smbo/core/home/index";
 import { createTRPCRouter, privateProcedure } from "../trpc";
 import { z } from "zod";
+import { TRPCError } from "@trpc/server";
 
 export const homeRouter = createTRPCRouter({
   get: privateProcedure.input(z.object({ id: z.string() })).query(async ({ ctx, input }) => {
-    const home = await Home.get(ctx.db, { id: input.id, userId: ctx.auth.user.id })
+    const home = await Home.get(ctx.db, { id: input.id, userId: ctx.auth.user.id });
 
-    return home
+    console.log(home);
+
+    if (!home) {
+      throw new TRPCError({ code: "NOT_FOUND" });
+    }
+
+    return home;
   }),
   create: privateProcedure
     .input(Home.Insert.omit({ ownerId: true }))
