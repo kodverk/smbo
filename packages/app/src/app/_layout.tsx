@@ -14,7 +14,7 @@ export default function RootLayout() {
   return (
     <TRPCProvider>
       <StatusBar style="light" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <Stack initialRouteName="/(main)/" screenOptions={{ headerShown: false }} />
     </TRPCProvider>
   );
 }
