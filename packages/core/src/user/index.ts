@@ -14,23 +14,16 @@ export namespace User {
   export type Insert = z.infer<typeof Insert>;
 
   export async function get(db: DB, email: string) {
-    const result = await db
-      .select()
-      .from(userTable)
-      .where(eq(userTable.email, email));
+    const result = await db.select().from(userTable).where(eq(userTable.email, email));
 
     return getDrizzleResult(result);
   }
 
-  export async function update(
-    db: DB,
-    userId: string,
-    values: Partial<Insert>,
-  ) {
+  export async function update(db: DB, userId: string, values: Partial<Insert>) {
     await db.update(userTable).set(values).where(eq(userTable.id, userId));
   }
 
-  export async function create(db: DrizzleD1Database, values: Insert) {
+  export async function create(db: DB, values: Insert) {
     const userId = createID("user");
     const result = await db
       .insert(userTable)
@@ -43,7 +36,7 @@ export namespace User {
     return getDrizzleResult(result);
   }
 
-  export async function getOrCreate(db: DrizzleD1Database, email: string) {
+  export async function getOrCreate(db: DB, email: string) {
     const user = await get(db, email);
     if (user) {
       return user;
