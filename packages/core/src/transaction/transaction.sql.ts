@@ -16,6 +16,7 @@ export const transactionTable = sqliteTable("transactions", {
     .notNull()
     .references(() => userTable.id),
   transactionDate: timestamp("transaction_date").notNull(),
+  currency: text("currency").notNull(),
 });
 
 export const transactionCategoryTable = sqliteTable("transaction_categories", {
