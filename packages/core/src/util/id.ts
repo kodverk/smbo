@@ -8,6 +8,9 @@ const prefixes = {
   emailVerification: "ev",
   home: "hme",
   transaction: "trn",
+  list: "lst",
+  event: "evt",
+  sharedExpense: "sex",
 } as const;
 
 export function createID(prefix: keyof typeof prefixes): string {
