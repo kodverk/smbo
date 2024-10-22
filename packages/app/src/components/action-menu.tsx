@@ -40,7 +40,7 @@ export function ActionMenu() {
       stiffness: 300,
       damping: 40,
     }),
-    height: withSpring(isOpen.value ? 56 * 3 : 56, {
+    height: withSpring(isOpen.value ? contentHeight.value : 56, {
       mass: 1,
       stiffness: 300,
       damping: 40,
@@ -100,7 +100,7 @@ export function ActionMenu() {
           </Animated.View>
         </Pressable>
         <Animated.View ref={animatedRef} className="gap-y-2 p-2" style={[contentStyle]}>
-          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-2">
+          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-2 h-20">
             <View className="h-12 w-12 bg-blue-200 rounded-full items-center justify-center">
               <Icons.HandCoins className="color-blue-800" />
             </View>
@@ -109,7 +109,7 @@ export function ActionMenu() {
               <Text>Add shared transactions</Text>
             </View>
           </Pressable>
-          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4">
+          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4 h-20">
             <View className="h-12 w-12 bg-fuchsia-200 rounded-full items-center justify-center">
               <Icons.CalendarHeart className="color-fuchsia-800" />
             </View>
@@ -118,7 +118,7 @@ export function ActionMenu() {
               <Text>Add shared calendar events</Text>
             </View>
           </Pressable>
-          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4">
+          <Pressable className="bg-neutral-200 px-3 py-4 rounded-xl flex-row gap-x-4 h-20">
             <View className="h-12 w-12 bg-green-200 rounded-full items-center justify-center">
               <Icons.ListTodo className="color-green-800" />
             </View>
