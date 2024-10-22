@@ -10,8 +10,10 @@ import { Button, ButtonIconRight, ButtonText } from "~/components/button";
 import { Input } from "~/components/input";
 
 export default function AuthScreen() {
+  const isHydrated = AuthStore.useHydrated();
+
   const me = trpc.user.me.useQuery(undefined, {
-    retry: false,
+    enabled: isHydrated,
   });
 
   if (me.isLoading) {
