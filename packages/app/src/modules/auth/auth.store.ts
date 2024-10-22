@@ -25,9 +25,10 @@ const authStore = create<AuthStore>()(
       name: "auth",
       storage: new PersistSecureStore(),
       partialize: (state) => ({ token: state.token }),
-      onRehydrateStorage: (state) => {
+      onRehydrateStorage: (foo) => {
         return (state, error) => {
           state.hydrated = true;
+          return state;
         };
       },
     },
@@ -35,6 +36,9 @@ const authStore = create<AuthStore>()(
 );
 
 export namespace AuthStore {
+  export function useToken() {
+    return authStore((state) => state.token);
+  }
   export function useActions() {
     return authStore((state) => state.actions);
   }
