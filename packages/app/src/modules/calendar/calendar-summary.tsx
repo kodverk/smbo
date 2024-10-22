@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View } from "react-native";
-import { Button, ButtonText } from "~/components/button";
 
 function getDayDatePadded(today = new Date()) {
   return today.getDate().toString().padStart(2, "0");
