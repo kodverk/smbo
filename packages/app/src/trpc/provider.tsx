@@ -3,6 +3,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React from "react";
 import { createTRPCReact, httpBatchLink, loggerLink } from "@trpc/react-query";
 import type { Router } from "@smbo/trpc/src/routers/root.router";
+export type { RouterOutputs } from "@smbo/trpc/src/routers/root.router";
 import superjson from "superjson";
 import { AuthStore } from "~/modules/auth/auth.store";
 
@@ -46,5 +47,3 @@ export function TRPCProvider(props: React.PropsWithChildren) {
 export const getBaseUrl = () => {
   return "https://smbo-viktor-trpcscript.viktormalmedal.workers.dev";
 };
-
-export function isTRPCError(error) { }
