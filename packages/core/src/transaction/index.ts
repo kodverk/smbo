@@ -1,22 +1,36 @@
 import { createInsertSchema } from "drizzle-zod";
 import { sharedExpenseTable, transactionCategoryTable, transactionTable } from "./transaction.sql";
-import { and, desc, eq, isNull, or, sql, sum, type DB } from "../drizzle";
+import { and, desc, eq, isNull, or, sum, type DB } from "../drizzle";
 import { createID } from "../util/id";
-import type { z } from "zod";
+import { z } from "zod";
 import { userTable } from "../user/user.sql";
 
 export namespace Transaction {
-  export const Insert = createInsertSchema(transactionTable).omit({ id: true });
+  export const Insert = createInsertSchema(transactionTable)
+    .omit({ id: true })
+    .and(z.object({ percentage: z.number() }));
   export type Insert = z.infer<typeof Insert>;
 
   export async function create(db: DB, values: Insert) {
-    const id = createID("transaction");
-    await db.insert(transactionTable).values({
-      id,
-      ...values,
+    const transactionId = createID("transaction");
+    const sharedExpenseId = createID("sharedExpense");
+
+    await db.transaction(async (tx) => {
+      await tx.insert(transactionTable).values({
+        id: transactionId,
+        ...values,
+      });
+
+      await tx.insert(sharedExpenseTable).values({
+        id: sharedExpenseId,
+        transactionId,
+        userId: values.paidBy,
+        settled: false,
+        amountOwed: values.amount / values.percentage,
+      });
     });
 
-    return id;
+    return transactionId;
   }
 
   export async function get(
@@ -31,6 +45,7 @@ export namespace Transaction {
         category: transactionCategoryTable.name,
         paidBy: userTable.id,
         transactionDate: transactionTable.transactionDate,
+        currency: transactionTable.currency,
       })
       .from(transactionTable)
       .leftJoin(userTable, eq(transactionTable.paidBy, userTable.id))
@@ -54,7 +69,7 @@ export namespace Transaction {
       })
       .from(sharedExpenseTable)
       .leftJoin(transactionTable, eq(sharedExpenseTable.transactionId, transactionTable.id))
-      .where(and(eq(transactionTable.homeId, args.homeId), isNull(sharedExpenseTable.settledOn)))
+      .where(and(eq(transactionTable.homeId, args.homeId), isNull(sharedExpenseTable.settled)))
       .groupBy(sharedExpenseTable.userId, transactionTable.paidBy)
       .having(
         or(eq(sharedExpenseTable.userId, args.userId), eq(transactionTable.paidBy, args.userId)),
