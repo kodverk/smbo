@@ -1,7 +1,6 @@
 import { Redirect, Tabs, useLocalSearchParams } from "expo-router";
 import type { LucideIcon } from "lucide-react-native";
 import { Icons } from "~/components/icons";
-import { trpc } from "~/trpc/provider";
 
 interface TabBarIconProps {
   icon: LucideIcon;
